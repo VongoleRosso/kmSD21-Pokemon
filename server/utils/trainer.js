@@ -1,9 +1,9 @@
 import {
   ListObjectsCommand,
-  GetObjectCommand,
   PutObjectCommand,
+  GetObjectCommand,
   DeleteObjectCommand,
-} from "@aws-sdk/client-s3";
+ } from "@aws-sdk/client-s3";
 import s3Client from "./s3Client";
 
 const config = useRuntimeConfig();
@@ -24,7 +24,8 @@ export const findTrainers = async () => {
   return objects.Contents ?? [];
 };
 
-/** トレーナーの取得 */
+/** トレーナーの取得 [S3 クライアント処理] **/
+// トレーナーを取得する S3 クライアント処理の実装
 export const findTrainer = async (name) => {
   const object = await s3Client.send(
     new GetObjectCommand({
@@ -34,7 +35,7 @@ export const findTrainer = async (name) => {
   );
   const trainer = JSON.parse(await streamToString(object.Body));
   return trainer;
-};
+} ;
 
 /** トレーナーの追加更新 */
 export const upsertTrainer = async (name, trainer) => {
@@ -48,7 +49,8 @@ export const upsertTrainer = async (name, trainer) => {
   return result;
 };
 
-/** トレーナーの削除 */
+/** トレーナーの削除 [S3 クライアント処理] **/
+// トレーナーを削除する S3 クライアント処理の実装
 export const deleteTrainer = async (name) => {
   const result = await s3Client.send(
     new DeleteObjectCommand({
