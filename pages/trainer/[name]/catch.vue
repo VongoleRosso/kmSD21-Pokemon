@@ -1,7 +1,4 @@
 <script setup>
-const route = useRoute();
-const router = useRouter();
-const config = useRuntimeConfig();
 const page = ref(0);
 const limit = ref(20);
 const offset = computed(() => page.value * limit.value);
@@ -23,18 +20,6 @@ const onNext = async () => {
   page.value++;
   await refresh();
 };
-const onCatch = async (pokemon) => {
-  const response = await $fetch(`/api/trainer/${route.params.name}/pokemon`, {
-    baseURL: config.public.backendOrigin,
-    method: "POST",
-    body: {
-      name: pokemon.name,
-    },
-  }).catch((e) => e);
-  if (response instanceof Error) return;
-  router.push(`/trainer/${route.params.name}`);
-};
-const { dialog, onOpen, onClose } = useDialog();
 </script>
 
 <template>
@@ -45,25 +30,8 @@ const { dialog, onOpen, onClose } = useDialog();
     <GamifyList>
       <GamifyItem v-for="pokemon in pokemons.results" :key="pokemon.url">
         <span class="pokemon-name">{{ pokemon.name }}</span>
-        <GamifyButton @click="onOpen(pokemon)">つかまえる</GamifyButton>
       </GamifyItem>
     </GamifyList>
-    <GamifyDialog
-      v-if="dialog"
-      id="confirm-catch"
-      title="かくにん"
-      :description="`ほう！　${dialog.name}　にするんじゃな？`"
-      @close="onClose"
-    >
-      <GamifyList :border="false" direction="horizon">
-        <GamifyItem>
-          <GamifyButton @click="onClose">いいえ</GamifyButton>
-        </GamifyItem>
-        <GamifyItem>
-          <GamifyButton @click="onCatch(dialog)">はい</GamifyButton>
-        </GamifyItem>
-      </GamifyList>
-    </GamifyDialog>
     <GamifyList direction="horizon">
       <GamifyItem>
         <GamifyButton :disabled="!hasPrev" @click="onPrev">まえへ</GamifyButton>

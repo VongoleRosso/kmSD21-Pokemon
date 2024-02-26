@@ -24,12 +24,12 @@ const { dialog, onOpen, onClose } = useDialog();
 <template>
   <div>
     <h1>あたらしくはじめる</h1>
-    <p>では　はじめに　きみの　なまえを　おしえて　もらおう！</p>
+    <p>では はじめに 君の 名前を 教えて くれたまえ！</p>
     <form @submit.prevent>
       <div class="item">
-        <label for="name">なまえ</label>
+        <label for="name">名前</label>
         <span id="name-description"
-          >とくていの　もじは　とりのぞかれるぞ！</span
+          >特定の 文字は 取りのぞかれるよ！</span
         >
         <input
           id="name"
@@ -39,14 +39,14 @@ const { dialog, onOpen, onClose } = useDialog();
         />
       </div>
       <GamifyButton type="button" :disabled="!valid" @click="onOpen(true)"
-        >けってい</GamifyButton
+        >★ 決定 ★</GamifyButton
       >
     </form>
     <GamifyDialog
       v-if="dialog"
       id="confirm-submit"
-      title="かくにん"
-      :description="`ふむ・・・　きみは　${safeTrainerName}　と　いうんだな！`"
+      title="確認"
+      :description="`ふむ・・・ 君は ${safeTrainerName} と いうんだな！`"
       @close="onClose"
     >
       <GamifyList :border="false" direction="horizon">
